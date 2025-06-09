@@ -6,6 +6,8 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
+import java.math.BigDecimal;
+
 public class athlete_profile{
     
     @Id
@@ -37,10 +39,29 @@ public class athlete_profile{
     @NotNull(message="Registration date cannot be null!")
     private LocalDate registrationDate;
 
+    @Column(name="Weight", nullable=false)
+    @NotNull(message="Weight cannot be null!")
+    @Positive
+    private BigDecimal weight;
+
+    @Column(name="Height", nullable=false)
+    @NotNull(message="Height cannot be null!")
+    @Positive
+    private BigDecimal height;
+
+    @ManyToMany
+    @JoinTable(
+        name= "athlete_prediction",
+        joinColumns = @JoinColumn(name= "athlete_id"),
+        inverseJoinColumns = @JoinColumn(name = "prediciton_id")
+    )
+    private prediction_record prediction_record;
+
     public athlete_profile(){}
 
     public athlete_profile(Long id, String firstName, String lastName, LocalDate dob,
-            String gender, LocalDate registrationDate){
+            String gender, LocalDate registrationDate, BigDecimal weight, BigDecimal height,
+            prediction_record prediction_record){
         
         this.id = id;
         this.firstName = firstName;
@@ -48,6 +69,9 @@ public class athlete_profile{
         this.dob = dob;
         this.gender = gender;
         this.registrationDate = registrationDate;
+        this.weight = weight;
+        this.height = height;
+        this.prediction_record = prediction_record;
     }
 
     // Getters
@@ -75,6 +99,18 @@ public class athlete_profile{
         return this.registrationDate;
     }
 
+    public BigDecimal getWeight(){
+        return this.weight;
+    }
+
+    public BigDecimal getHeight(){
+        return this.height;
+    }
+
+    public prediction_record setPrediction_record(){
+        return this.prediction_record;
+    }
+
     // Setters
     public void setFirstName(String firstName){
         this.firstName = firstName;
@@ -92,7 +128,19 @@ public class athlete_profile{
         this.gender = gender;
     }
 
-    public void getRegistriationDate(LocalDate registrationDate){
+    public void setRegistriationDate(LocalDate registrationDate){
         this.registrationDate = registrationDate;
     }
+
+     public void setWeight(BigDecimal weight){
+        this.weight = weight;
+    }
+
+    public void setHeight(BigDecimal height){
+        this.height = height;
+    }
+
+    public void setPrediction_record(prediction_record prediction_record){
+        this.prediction_record = prediction_record;
+    } 
 }

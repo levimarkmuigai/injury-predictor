@@ -15,6 +15,14 @@ public class prediction_record{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToMany
+    @JoinTable(
+        name="athlete_prediction",
+        joinColumns = @JoinColumn(name="prediction_id"),
+        inverseJoinColumns = @JoinColumn(name="athlete_id")
+    )
+    private athlete_profile athlete_profile;
+
     @Column(name="Past Injuries", nullable=false)
     @NotNull(message="Past Injuries cannot be null!")
     private String pastInjuries;
@@ -35,12 +43,13 @@ public class prediction_record{
     public prediction_record(){}
 
     public prediction_record(Long id, String pastInjuries, BigDecimal riskScore,
-            LocalDate predictedAt){
+            LocalDate predictedAt, athlete_profile athlete_profile){
 
         this.id = id;
         this.pastInjuries = pastInjuries;
         this.riskScore = riskScore;
         this.predictedAt = predictedAt;
+        this.athlete_profile = athlete_profile;
     }
 
     // Getters
@@ -60,6 +69,10 @@ public class prediction_record{
         return this.predictedAt;
     }
 
+    public athlete_profile getAthleteProfile(){
+        return this.athlete_profile;
+    }
+
     // Setter
       public void setPastInjuries(String pastInjuries){
         this.pastInjuries = pastInjuries; 
@@ -71,5 +84,9 @@ public class prediction_record{
 
     public void setPredictedAt(LocalDate predictedAt){
         this.predictedAt = predictedAt;
-    } 
+    }
+
+    public void setAthleteProfile(athlete_profile athlete_profile){
+        this.athlete_profile = athlete_profile;
+    }
 }
