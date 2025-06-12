@@ -95,7 +95,7 @@ public class AthleteProfile{
         return this.gender;
     }
 
-    public LocalDate getRegistriationDate(){
+    public LocalDate getRegistrationDate(){
         return this.registrationDate;
     }
 
@@ -107,7 +107,7 @@ public class AthleteProfile{
         return this.height;
     }
 
-    public PredictionRecord setPredictionRecord(){
+    public PredictionRecord getPredictionRecord(){
         return this.predictionRecord;
     }
 
@@ -128,7 +128,7 @@ public class AthleteProfile{
         this.gender = gender;
     }
 
-    public void setRegistriationDate(LocalDate registrationDate){
+    public void setRegistrationDate(LocalDate registrationDate){
         this.registrationDate = registrationDate;
     }
 
