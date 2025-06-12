@@ -1,4 +1,4 @@
-package com.example.injury_predictor.model;
+package com.example.InjuryPredictor.model;
 
 import jakarta.persistence.*;
 
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 import java.math.BigDecimal;
 
-public class athlete_profile{
+public class AthleteProfile{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
@@ -55,13 +55,13 @@ public class athlete_profile{
         joinColumns = @JoinColumn(name= "athlete_id"),
         inverseJoinColumns = @JoinColumn(name = "prediciton_id")
     )
-    private prediction_record prediction_record;
+    private PredictionRecord predictionRecord;
 
-    public athlete_profile(){}
+    public AthleteProfile(){}
 
-    public athlete_profile(Long id, String firstName, String lastName, LocalDate dob,
+    public AthleteProfile(Long id, String firstName, String lastName, LocalDate dob,
             String gender, LocalDate registrationDate, BigDecimal weight, BigDecimal height,
-            prediction_record prediction_record){
+            PredictionRecord predictionRecord){
         
         this.id = id;
         this.firstName = firstName;
@@ -71,7 +71,7 @@ public class athlete_profile{
         this.registrationDate = registrationDate;
         this.weight = weight;
         this.height = height;
-        this.prediction_record = prediction_record;
+        this.predictionRecord = predictionRecord;
     }
 
     // Getters
@@ -107,8 +107,8 @@ public class athlete_profile{
         return this.height;
     }
 
-    public prediction_record setPrediction_record(){
-        return this.prediction_record;
+    public PredictionRecord setPredictionRecord(){
+        return this.predictionRecord;
     }
 
     // Setters
@@ -140,7 +140,7 @@ public class athlete_profile{
         this.height = height;
     }
 
-    public void setPrediction_record(prediction_record prediction_record){
-        this.prediction_record = prediction_record;
+    public void setPredictionRecord(PredictionRecord predictionRecord){
+        this.predictionRecord = predictionRecord;
     } 
 }

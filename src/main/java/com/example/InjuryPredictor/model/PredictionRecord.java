@@ -1,4 +1,4 @@
-package com.example.injury_predictor.model;
+package com.example.InjuryPredictor.model;
 
 import jakarta.persistence.*;
 
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 import java.time.LocalDate;
 
-public class prediction_record{
+public class PredictionRecord{
     
     @Column(name="Id", nullable=false)
     @Id
@@ -21,7 +21,7 @@ public class prediction_record{
         joinColumns = @JoinColumn(name="prediction_id"),
         inverseJoinColumns = @JoinColumn(name="athlete_id")
     )
-    private athlete_profile athlete_profile;
+    private AthleteProfile athleteProfile;
 
     @Column(name="Past Injuries", nullable=false)
     @NotNull(message="Past Injuries cannot be null!")
@@ -40,16 +40,16 @@ public class prediction_record{
     @PastOrPresent
     private LocalDate predictedAt;
 
-    public prediction_record(){}
+    public PredictionRecord(){}
 
-    public prediction_record(Long id, String pastInjuries, BigDecimal riskScore,
-            LocalDate predictedAt, athlete_profile athlete_profile){
+    public PredictionRecord(Long id, String pastInjuries, BigDecimal riskScore,
+            LocalDate predictedAt, AthleteProfile athleteProfile){
 
         this.id = id;
         this.pastInjuries = pastInjuries;
         this.riskScore = riskScore;
         this.predictedAt = predictedAt;
-        this.athlete_profile = athlete_profile;
+        this.athleteProfile = athleteProfile;
     }
 
     // Getters
@@ -69,8 +69,8 @@ public class prediction_record{
         return this.predictedAt;
     }
 
-    public athlete_profile getAthleteProfile(){
-        return this.athlete_profile;
+    public AthleteProfile getAthleteProfile(){
+        return this.athleteProfile;
     }
 
     // Setter
@@ -86,7 +86,7 @@ public class prediction_record{
         this.predictedAt = predictedAt;
     }
 
-    public void setAthleteProfile(athlete_profile athlete_profile){
-        this.athlete_profile = athlete_profile;
+    public void setAthleteProfile(AthleteProfile athleteProfile){
+        this.athleteProfile = athleteProfile;
     }
 }
