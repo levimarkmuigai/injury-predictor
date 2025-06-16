@@ -49,4 +49,10 @@ public class AthleteProfileController{
             return saveProfile;
         });
     }
+
+    public void deleteAthleteProfile(Long id){
+        if(operation.existsById(id)){
+            operation.deleteById(id);
+        }
+    }
 }
