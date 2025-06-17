@@ -4,7 +4,7 @@ import com.example.InjuryPredictor.repositories.predictionRecordRepository;
 
 import com.example.InjuryPredictor.model.PredictionRecord;
 
-//import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
