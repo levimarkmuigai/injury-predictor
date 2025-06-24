@@ -8,6 +8,9 @@ import java.time.LocalDate;
 
 import java.math.BigDecimal;
 
+import java.util.List;
+
+@Entity
 public class AthleteProfile{
     
     @Id
@@ -55,7 +58,7 @@ public class AthleteProfile{
         joinColumns = @JoinColumn(name= "athlete_id"),
         inverseJoinColumns = @JoinColumn(name = "prediciton_id")
     )
-    private PredictionRecord predictionRecord;
+    private List<PredictionRecord> predictionRecord;
 
     public AthleteProfile(){}
 
