@@ -40,25 +40,25 @@ public class PredictionRecordController{
     }
 
     @GetMapping
-    public List<PredictionRecord> listPredicitionRecord(){
+    public List<PredictionRecord> listRecords(){
         return operation.findAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<PredictionRecord> getPredictionRecordById(@PathVariable Long id){
+    public Optional<PredictionRecord> getRecordById(@PathVariable Long id){
         return operation.findById(id);
     }
 
     @PutMapping("/{id}")
-    public Optional<PredictionRecord> updatePredicitionRecord(@RequestBody PredictionRecord updateRecord, 
+    public Optional<PredictionRecord> updateRecord(@RequestBody PredictionRecord updatedRecord, 
                                                             @PathVariable Long id){
 
         return operation.findById(id).map(record -> {
 
-            record.setPastInjuries(updateRecord.getPastInjuries());
-            record.setPredictedAt(updateRecord.getPredictedAt());
-            record.setRiskScore(updateRecord.getRiskScore());
-            record.setAthleteProfile(updateRecord.getAthleteProfile());
+            record.setPastInjuries(updatedRecord.getPastInjuries());
+            record.setPredictedAt(updatedRecord.getPredictedAt());
+            record.setRiskScore(updatedRecord.getRiskScore());
+            record.setAthleteProfile(updatedRecord.getAthleteProfile());
 
             PredictionRecord saveRecord = operation.save(record); 
                 return saveRecord;
@@ -66,7 +66,7 @@ public class PredictionRecordController{
     }
 
     @DeleteMapping("/{id}")
-    public void deletePredicitionRecord(@PathVariable Long id){
+    public void deleteRecord(@PathVariable Long id){
 
         if(operation.existsById(id)){
             operation.deleteById(id);

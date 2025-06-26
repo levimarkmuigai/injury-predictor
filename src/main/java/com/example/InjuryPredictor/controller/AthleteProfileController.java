@@ -35,36 +35,36 @@ public class AthleteProfileController{
 
     // Create AtheleteProfile
     @PostMapping
-    public AthleteProfile createAtheleteProfile(@RequestBody AthleteProfile athlete){
+    public AthleteProfile createProfile(@RequestBody AthleteProfile athlete){
         return operation.save(athlete);
     }
 
     // List All the AthleteProfiles
     @GetMapping
-    public List<AthleteProfile> ListAllAtheleteProfiles(){
+    public List<AthleteProfile> ListAllProfiles(){
         return operation.findAll();
     }
 
     // Find AthleteProfile By id
     @GetMapping("/{id}")
-    public Optional<AthleteProfile> getAtheleteProfileById(@PathVariable Long id){
+    public Optional<AthleteProfile> getProfileById(@PathVariable Long id){
         return operation.findById(id);
     }
 
     // Update the AthleteProfile by id
     @PutMapping("/{id}")
-    public Optional<AthleteProfile> updateAthleteProfile(@PathVariable Long id, 
-            @RequestBody AthleteProfile updateProfile){
+    public Optional<AthleteProfile> updateProfile(@PathVariable Long id, 
+            @RequestBody AthleteProfile updatedProfile){
 
         return operation.findById(id).map(profile -> {
-            profile.setFirstName(updateProfile.getFirstName());
-            profile.setLastName(updateProfile.getLastName());
-            profile.setDob(updateProfile.getDob());
-            profile.setGender(updateProfile.getGender());
-            profile.setRegistrationDate(updateProfile.getRegistrationDate());
-            profile.setWeight(updateProfile.getWeight());
-            profile.setHeight(updateProfile.getHeight());
-            profile.setPredictions(updateProfile.getPredictions());
+            profile.setFirstName(updatedProfile.getFirstName());
+            profile.setLastName(updatedProfile.getLastName());
+            profile.setDob(updatedProfile.getDob());
+            profile.setGender(updatedProfile.getGender());
+            profile.setRegistrationDate(updatedProfile.getRegistrationDate());
+            profile.setWeight(updatedProfile.getWeight());
+            profile.setHeight(updatedProfile.getHeight());
+            profile.setPredictions(updatedProfile.getPredictions());
 
             AthleteProfile saveProfile = operation.save(profile);
 
@@ -73,7 +73,7 @@ public class AthleteProfileController{
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAthleteProfile(@PathVariable Long id){
+    public void deleteProfile(@PathVariable Long id){
         if(operation.existsById(id)){
             operation.deleteById(id);
         }
