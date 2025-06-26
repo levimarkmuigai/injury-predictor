@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
+@Table(name = "Athlete_Profile")
 public class AthleteProfile{
     
     @Id
@@ -52,11 +53,11 @@ public class AthleteProfile{
     @Positive
     private BigDecimal height;
 
-    @ManyToMany
-    @JoinTable(
-        name= "athlete_prediction",
-        joinColumns = @JoinColumn(name= "athlete_id"),
-        inverseJoinColumns = @JoinColumn(name = "prediciton_id")
+    @OneToMany(
+        mappedBy = "athleteProfile",
+        cascade =   CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.LAZY
     )
     private List<PredictionRecord> predictionRecord;
 
@@ -64,7 +65,7 @@ public class AthleteProfile{
 
     public AthleteProfile(Long id, String firstName, String lastName, LocalDate dob,
             String gender, LocalDate registrationDate, BigDecimal weight, BigDecimal height,
-            PredictionRecord predictionRecord){
+            List<PredictionRecord> predictionRecord){
         
         this.id = id;
         this.firstName = firstName;
@@ -110,7 +111,7 @@ public class AthleteProfile{
         return this.height;
     }
 
-    public PredictionRecord getPredictionRecord(){
+    public List<PredictionRecord> getPredictions(){
         return this.predictionRecord;
     }
 
@@ -143,7 +144,7 @@ public class AthleteProfile{
         this.height = height;
     }
 
-    public void setPredictionRecord(PredictionRecord predictionRecord){
+    public void setPredictions(List<PredictionRecord> predictionRecord){
         this.predictionRecord = predictionRecord;
     } 
 }

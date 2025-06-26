@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name="Prediction_Record")
 public class PredictionRecord{
     
     @Column(name="Id", nullable=false)
@@ -15,28 +17,24 @@ public class PredictionRecord{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    @JoinTable(
-        name="athlete_prediction",
-        joinColumns = @JoinColumn(name="prediction_id"),
-        inverseJoinColumns = @JoinColumn(name="athlete_id")
-    )
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name="athlete_id", nullable=false)
     private AthleteProfile athleteProfile;
 
     @Column(name="Past Injuries", nullable=false)
     @NotNull(message="Past Injuries cannot be null!")
     private String pastInjuries;
 
-    @Column(name="Risk Level", nullable=false)
+    @Column(name="Risk_Level", nullable=false)
     @NotNull(message="Risk level cannot be null!")
     @Size(max=10)
     private String riskLevel;
 
-    @Column(name="Risk Score")
+    @Column(name="Risk_Score", nullable=false)
     @NotNull(message="Risk Score cannot be null!")
     private BigDecimal riskScore;
 
-    @Column(name="Predicted at", nullable=false)
+    @Column(name="Predicted_at", nullable=false)
     @PastOrPresent
     private LocalDate predictedAt;
 

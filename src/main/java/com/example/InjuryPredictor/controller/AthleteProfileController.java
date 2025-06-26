@@ -42,7 +42,7 @@ public class AthleteProfileController{
             profile.setRegistrationDate(updateProfile.getRegistrationDate());
             profile.setWeight(updateProfile.getWeight());
             profile.setHeight(updateProfile.getHeight());
-            profile.setPredictionRecord(updateProfile.getPredictionRecord());
+            profile.setPredictions(updateProfile.getPredictions());
 
             AthleteProfile saveProfile = operation.save(profile);
 
