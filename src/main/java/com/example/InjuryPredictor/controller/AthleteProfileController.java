@@ -4,8 +4,6 @@ import com.example.InjuryPredictor.model.AthleteProfile;
 
 import com.example.InjuryPredictor.repositories.athleteRepository;
 
-import com.example.InjuryPredictor.model.PredictionRecord;
-
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -36,8 +34,8 @@ public class AthleteProfileController{
     }
 
     // Create AtheleteProfile
-    @PutMapping
-    public AthleteProfile createAtheleteProfile(AthleteProfile athlete){
+    @PostMapping
+    public AthleteProfile createAtheleteProfile(@RequestBody AthleteProfile athlete){
         return operation.save(athlete);
     }
 
@@ -49,7 +47,7 @@ public class AthleteProfileController{
 
     // Find AthleteProfile By id
     @GetMapping("/{id}")
-    public Optional<AthleteProfile> getAtheleteProfileById(Long id){
+    public Optional<AthleteProfile> getAtheleteProfileById(@PathVariable Long id){
         return operation.findById(id);
     }
 
@@ -75,7 +73,7 @@ public class AthleteProfileController{
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAthleteProfile(Long id){
+    public void deleteAthleteProfile(@PathVariable Long id){
         if(operation.existsById(id)){
             operation.deleteById(id);
         }

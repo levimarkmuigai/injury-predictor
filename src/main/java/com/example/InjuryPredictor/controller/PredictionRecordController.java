@@ -35,7 +35,7 @@ public class PredictionRecordController{
     }
 
     @PostMapping
-    public PredictionRecord createPredictionRecord(PredictionRecord record){
+    public PredictionRecord createPredictionRecord(@RequestBody PredictionRecord record){
         return operation.save(record);
     }
 
@@ -45,7 +45,7 @@ public class PredictionRecordController{
     }
 
     @GetMapping("/{id}")
-    public Optional<PredictionRecord> getPredictionRecordById(Long id){
+    public Optional<PredictionRecord> getPredictionRecordById(@PathVariable Long id){
         return operation.findById(id);
     }
 
@@ -66,7 +66,7 @@ public class PredictionRecordController{
     }
 
     @DeleteMapping("/{id}")
-    public void deletePredicitionRecord(Long id){
+    public void deletePredicitionRecord(@PathVariable Long id){
 
         if(operation.existsById(id)){
             operation.deleteById(id);
