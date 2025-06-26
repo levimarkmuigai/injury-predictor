@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/profiles")
@@ -35,47 +35,58 @@ public class AthleteProfileController{
 
     // Create AtheleteProfile
     @PostMapping
-    public AthleteProfile createProfile(@RequestBody AthleteProfile athlete){
-        return operation.save(athlete);
+    public ResponseEntity<AthleteProfile> createProfile(@RequestBody AthleteProfile athlete){
+
+        AthleteProfile saved = operation.save(athlete);
+
+        return ResponseEntity.ok(saved);
     }
 
     // List All the AthleteProfiles
     @GetMapping
-    public List<AthleteProfile> ListAllProfiles(){
-        return operation.findAll();
+    public ResponseEntity<List<AthleteProfile>> ListAllProfiles(){
+        List<AthleteProfile> all = operation.findAll();
+
+        return ResponseEntity.ok(all);
     }
 
     // Find AthleteProfile By id
     @GetMapping("/{id}")
-    public Optional<AthleteProfile> getProfileById(@PathVariable Long id){
-        return operation.findById(id);
+    public ResponseEntity<AthleteProfile> getProfileById(@PathVariable Long id){
+        return operation.findById(id).map(ResponseEntity::ok).
+            orElse(ResponseEntity.notFound().build());
     }
 
     // Update the AthleteProfile by id
     @PutMapping("/{id}")
-    public Optional<AthleteProfile> updateProfile(@PathVariable Long id, 
+    public ResponseEntity<AthleteProfile> updateProfile(@PathVariable Long id, 
             @RequestBody AthleteProfile updatedProfile){
 
-        return operation.findById(id).map(profile -> {
-            profile.setFirstName(updatedProfile.getFirstName());
-            profile.setLastName(updatedProfile.getLastName());
-            profile.setDob(updatedProfile.getDob());
-            profile.setGender(updatedProfile.getGender());
-            profile.setRegistrationDate(updatedProfile.getRegistrationDate());
-            profile.setWeight(updatedProfile.getWeight());
-            profile.setHeight(updatedProfile.getHeight());
-            profile.setPredictions(updatedProfile.getPredictions());
+        return operation.findById(id)
+            .map(existing -> {
+                existing.setFirstName(updatedProfile.getFirstName());
+                existing.setLastName(updatedProfile.getLastName());
+                existing.setDob(updatedProfile.getDob());
+                existing.setGender(updatedProfile.getGender());
+                existing.setRegistrationDate(updatedProfile.getRegistrationDate());
+                existing.setWeight(updatedProfile.getWeight());
+                existing.setHeight(updatedProfile.getHeight());
+                existing.setPredictions(updatedProfile.getPredictions());
 
-            AthleteProfile saveProfile = operation.save(profile);
+            AthleteProfile saved = operation.save(existing);
 
-            return saveProfile;
-        });
+            return ResponseEntity.ok(saved);
+        }).orElse(ResponseEntity.notFound().build())
+            
+        ;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProfile(@PathVariable Long id){
-        if(operation.existsById(id)){
-            operation.deleteById(id);
+    public ResponseEntity<Void> deleteProfile(@PathVariable Long id){
+        if(!operation.existsById(id)){
+            return ResponseEntity.notFound().build();
         }
+        operation.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
