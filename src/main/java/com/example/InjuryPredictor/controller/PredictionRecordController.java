@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/predictions")
@@ -35,22 +35,28 @@ public class PredictionRecordController{
     }
 
     @PostMapping
-    public PredictionRecord createPredictionRecord(@RequestBody PredictionRecord record){
-        return operation.save(record);
+    public ResponseEntity<PredictionRecord> createPredictionRecord(@RequestBody PredictionRecord record){
+        PredictionRecord save = operation.save(record);
+
+        return ResponseEntity.ok(save);
     }
 
     @GetMapping
-    public List<PredictionRecord> listRecords(){
-        return operation.findAll();
+    public ResponseEntity<List<PredictionRecord>> listRecords(){
+
+        List<PredictionRecord> all = operation.findAll();
+
+        return ResponseEntity.ok(all);
     }
 
     @GetMapping("/{id}")
-    public Optional<PredictionRecord> getRecordById(@PathVariable Long id){
-        return operation.findById(id);
+    public ResponseEntity<PredictionRecord> getRecordById(@PathVariable Long id){
+        return operation.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.
+                notFound().build());
     }
 
     @PutMapping("/{id}")
-    public Optional<PredictionRecord> updateRecord(@RequestBody PredictionRecord updatedRecord, 
+    public ResponseEntity<PredictionRecord> updateRecord(@RequestBody PredictionRecord updatedRecord, 
                                                             @PathVariable Long id){
 
         return operation.findById(id).map(record -> {
@@ -60,16 +66,20 @@ public class PredictionRecordController{
             record.setRiskScore(updatedRecord.getRiskScore());
             record.setAthleteProfile(updatedRecord.getAthleteProfile());
 
-            PredictionRecord saveRecord = operation.save(record); 
-                return saveRecord;
-            });
+            PredictionRecord save = operation.save(record); 
+                return ResponseEntity.ok(save);
+            }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRecord(@PathVariable Long id){
+    public ResponseEntity<Void> deleteRecord(@PathVariable Long id){
 
-        if(operation.existsById(id)){
-            operation.deleteById(id);
+        if(!operation.existsById(id)){
+            ResponseEntity.notFound().build();
         }
+
+        operation.deleteById(id);
+        
+        return ResponseEntity.noContent().build();
     }
 }
