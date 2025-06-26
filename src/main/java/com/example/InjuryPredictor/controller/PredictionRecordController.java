@@ -4,12 +4,28 @@ import com.example.InjuryPredictor.repositories.predictionRecordRepository;
 
 import com.example.InjuryPredictor.model.PredictionRecord;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.PostMapping;
+
+import org.springframework.web.bind.annotation.PutMapping;
+
+import org.springframework.web.bind.annotation.RequestBody;
+
+import org.springframework.web.bind.annotation.PathVariable;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 
 import java.util.Optional;
 
+@RestController
+@RequestMapping("/api/predictions")
 public class PredictionRecordController{
 
     private final predictionRecordRepository operation;
@@ -18,32 +34,38 @@ public class PredictionRecordController{
         this.operation = operation;
     }
 
+    @PostMapping
     public PredictionRecord createPredictionRecord(PredictionRecord record){
         return operation.save(record);
     }
 
+    @GetMapping
     public List<PredictionRecord> listPredicitionRecord(){
         return operation.findAll();
     }
 
+    @GetMapping("/{id}")
     public Optional<PredictionRecord> getPredictionRecordById(Long id){
         return operation.findById(id);
     }
 
-    public Optional<PredictionRecord> updatePredicitionRecord(PredictionRecord updateRecord, Long id){
+    @PutMapping("/{id}")
+    public Optional<PredictionRecord> updatePredicitionRecord(@RequestBody PredictionRecord updateRecord, 
+                                                            @PathVariable Long id){
+
         return operation.findById(id).map(record -> {
 
-           record.setPastInjuries(updateRecord.getPastInjuries());
-           record.setPredictedAt(updateRecord.getPredictedAt());
-           record.setRiskScore(updateRecord.getRiskScore());
-           record.setAthleteProfile(updateRecord.getAthleteProfile());
+            record.setPastInjuries(updateRecord.getPastInjuries());
+            record.setPredictedAt(updateRecord.getPredictedAt());
+            record.setRiskScore(updateRecord.getRiskScore());
+            record.setAthleteProfile(updateRecord.getAthleteProfile());
 
-           PredictionRecord saveRecord = operation.save(record); 
+            PredictionRecord saveRecord = operation.save(record); 
+                return saveRecord;
+            });
+    }
 
-           return saveRecord;
-        });
-    } 
-
+    @DeleteMapping("/{id}")
     public void deletePredicitionRecord(Long id){
 
         if(operation.existsById(id)){
