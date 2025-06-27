@@ -89,6 +89,14 @@
             <artifactId>hibernate-validator</artifactId>
             <version>7.0.5.Final</version>
         </dependency>
+
+        <!--Deepseek Api-->
+        <dependency>
+            <groupId>top.aoyudi.deepseek</groupId>
+            <artifactId>deepseek4j</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
     </dependencies>
 
 	<build>
