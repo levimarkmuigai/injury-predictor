@@ -61,11 +61,13 @@ public class AthleteProfile{
     )
     private List<PredictionRecord> predictionRecord;
 
+    private String recommendations;
+
     public AthleteProfile(){}
 
     public AthleteProfile(Long id, String firstName, String lastName, LocalDate dob,
             String gender, LocalDate registrationDate, BigDecimal weight, BigDecimal height,
-            List<PredictionRecord> predictionRecord){
+            List<PredictionRecord> predictionRecord, String recommendations){
         
         this.id = id;
         this.firstName = firstName;
@@ -76,6 +78,7 @@ public class AthleteProfile{
         this.weight = weight;
         this.height = height;
         this.predictionRecord = predictionRecord;
+        this.recommendations = recommendations;
     }
 
     // Getters
@@ -115,6 +118,10 @@ public class AthleteProfile{
         return this.predictionRecord;
     }
 
+    public String getRecommendations(){
+        return this.recommendations;
+    }
+
     // Setters
     public void setFirstName(String firstName){
         this.firstName = firstName;
@@ -147,4 +154,8 @@ public class AthleteProfile{
     public void setPredictions(List<PredictionRecord> predictionRecord){
         this.predictionRecord = predictionRecord;
     } 
+
+    public void setRecommendations(String recommendations){
+        this.recommendations = recommendations;
+    }
 }
