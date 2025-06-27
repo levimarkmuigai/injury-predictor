@@ -72,6 +72,7 @@ public class AthleteProfileController{
                 existing.setWeight(updatedProfile.getWeight());
                 existing.setHeight(updatedProfile.getHeight());
                 existing.setPredictions(updatedProfile.getPredictions());
+                existing.setRecommendations(updatedProfile.getRecommendations());
 
             AthleteProfile saved = operation.save(existing);
 
