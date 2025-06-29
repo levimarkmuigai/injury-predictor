@@ -10,46 +10,52 @@ import java.time.LocalDate;
 
 import java.time.Period;
 
-import java.math.BigDecimal;
+import java.math.RoundingMode;
 
-import java.util.Objects;
 
 @Component
 public class SuggestionService{
-    
-    private static final String TEMPLATE_SUGGESTIONS = 
-        "You are a sports physiotherapist assistant.\n"+
-        "Provide exactly three short, concise suggestions  for an athlete  %d-years-old "+
-        "(Height %s cm and %s kg) with past injuries \"%s\", predicted injury \"%s\", risk score \"%s\": \n" +
-        "1. Targeted exercise  or stretch:\n"+
-        "2. Training modification:\n"+
+
+        private static final String TEMPLATE_SUGGESTIONS =
+        "You are a sports physiotherapist assistant.%n" +
+        "Provide exactly three short, concise suggestions for a %d-year-old athlete " +
+        "(Height %d cm and Weight %d kg) with past injuries \"%s\", predicted injury \"%s\", risk score \"%s\":%n" +
+        "1. Targeted exercise or stretch:%n" +
+        "2. Training modification:%n" +
         "3. Recovery strategy:";
 
-    public String buildPrompt(AthleteProfile profile, PredictionRecord record){
-        
-        Objects.requireNonNull(profile, "profile");
-        Objects.requireNonNull(record, "record");
+        public String buildPrompt(AthleteProfile profile,
+                PredictionRecord record){
+            
+            if(profile == null){
+               throw new IllegalArgumentException("Profile must not be null!"); 
+            }
+            if(record == null){
+                throw new IllegalArgumentException("Record must not be null!");
+            }
 
-        int age = Period.between(profile.getDob(), LocalDate.now()).getYears();
+            int age = Period.between(profile.getDob(), LocalDate.now()).getYears();
 
-        BigDecimal height = profile.getHeight();
+            int height = profile.getHeight();
 
-        BigDecimal weight = profile.getWeight();
+            int weight = profile.getWeight();
 
-        String pastInjuries = record.getPastInjuries();
+            String pastInjuries = record.getPastInjuries();
 
-        String prediction = record.getPredictedInjury();
+            String prediction = record.getPredictedInjury();
 
-        String risk = record.getRiskScore().toPlainString();
+            String riskScore = record.getRiskScore()
+                .setScale(2, RoundingMode.DOWN)
+                .toPlainString();
 
-        return String.format(
-                 TEMPLATE_SUGGESTIONS,
-                 age,
-                 height,
-                 weight,
-                 pastInjuries,
-                 prediction,
-                 risk
-                );
-    }
+            return String.format(
+                        TEMPLATE_SUGGESTIONS,
+                        age,
+                        height,
+                        weight,
+                        pastInjuries,
+                        prediction,
+                        riskScore
+                    );
+        }
 }

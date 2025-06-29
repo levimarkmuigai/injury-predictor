@@ -1,4 +1,4 @@
-package com.example.injury_predictor;
+package com.example.InjuryPredictor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

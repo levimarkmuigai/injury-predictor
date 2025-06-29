@@ -6,8 +6,6 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-import java.math.BigDecimal;
-
 import java.util.List;
 
 @Entity
@@ -46,12 +44,12 @@ public class AthleteProfile{
     @Column(name="Weight", nullable=false)
     @NotNull(message="Weight cannot be null!")
     @Positive
-    private BigDecimal weight;
+    private int weight;
 
     @Column(name="Height", nullable=false)
     @NotNull(message="Height cannot be null!")
     @Positive
-    private BigDecimal height;
+    private int height;
 
     @OneToMany(
         mappedBy = "athleteProfile",
@@ -66,7 +64,7 @@ public class AthleteProfile{
     public AthleteProfile(){}
 
     public AthleteProfile(Long id, String firstName, String lastName, LocalDate dob,
-            String gender, LocalDate registrationDate, BigDecimal weight, BigDecimal height,
+            String gender, LocalDate registrationDate, int weight, int height,
             List<PredictionRecord> predictionRecord, String recommendations){
         
         this.id = id;
@@ -106,11 +104,11 @@ public class AthleteProfile{
         return this.registrationDate;
     }
 
-    public BigDecimal getWeight(){
+    public int getWeight(){
         return this.weight;
     }
 
-    public BigDecimal getHeight(){
+    public int getHeight(){
         return this.height;
     }
 
@@ -143,11 +141,11 @@ public class AthleteProfile{
         this.registrationDate = registrationDate;
     }
 
-     public void setWeight(BigDecimal weight){
+     public void setWeight(int weight){
         this.weight = weight;
     }
 
-    public void setHeight(BigDecimal height){
+    public void setHeight(int height){
         this.height = height;
     }
 
