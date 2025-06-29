@@ -8,27 +8,29 @@ import com.example.InjuryPredictor.model.PredictionRecord;
 
 import java.time.LocalDate;
 
+import java.time.Period;
+
 import java.math.BigDecimal;
+
+import java.util.Objects;
 
 @Component
 public class SuggestionService{
     
     private static final String TEMPLATE_SUGGESTIONS = 
         "You are a sports physiotherapist assistant.\n"+
-        "Provide exactly three short, concise suggestions  for an athlete born on %d "+
-        "(Height %d cm and %d kg) with past injuries \"%s\", predicted injury \"%s\", risk score \"%s\": \n" +
+        "Provide exactly three short, concise suggestions  for an athlete  %d-years-old "+
+        "(Height %s cm and %s kg) with past injuries \"%s\", predicted injury \"%s\", risk score \"%s\": \n" +
         "1. Targeted exercise  or stretch:\n"+
         "2. Training modification:\n"+
         "3. Recovery strategy:";
 
     public String buildPrompt(AthleteProfile profile, PredictionRecord record){
         
-        if(profile == null){
-            
-            throw new IllegalArgumentException("Athlete must not be null.");
-        }
+        Objects.requireNonNull(profile, "profile");
+        Objects.requireNonNull(record, "record");
 
-        LocalDate dob = profile.getDob();
+        int age = Period.between(profile.getDob(), LocalDate.now()).getYears();
 
         BigDecimal height = profile.getHeight();
 
@@ -38,16 +40,16 @@ public class SuggestionService{
 
         String prediction = record.getPredictedInjury();
 
-        BigDecimal riskScore = record.getRiskScore();
+        String risk = record.getRiskScore().toPlainString();
 
         return String.format(
                  TEMPLATE_SUGGESTIONS,
-                 dob,
+                 age,
                  height,
                  weight,
-                 pastInjuries != null ? pastInjuries : "unknown",
-                 prediction != null ? prediction : "none",
-                 riskScore != null ? riskScore : 0.0
+                 pastInjuries,
+                 prediction,
+                 risk
                 );
     }
 }
