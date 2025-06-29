@@ -25,6 +25,10 @@ public class PredictionRecord{
     @NotNull(message="Past Injuries cannot be null!")
     private String pastInjuries;
 
+    @Column(name="Prediction", nullable =false)
+    @NotNull(message="Prediction cannot be null")
+    private String predictedInjury;
+
     @Column(name="Risk_Level", nullable=false)
     @NotNull(message="Risk level cannot be null!")
     @Size(max=10)
@@ -40,11 +44,12 @@ public class PredictionRecord{
 
     public PredictionRecord(){}
 
-    public PredictionRecord(Long id, String pastInjuries, BigDecimal riskScore,
-            LocalDate predictedAt, AthleteProfile athleteProfile){
+    public PredictionRecord(Long id, String pastInjuries,String predictedInjury, 
+            BigDecimal riskScore,LocalDate predictedAt, AthleteProfile athleteProfile){
 
         this.id = id;
         this.pastInjuries = pastInjuries;
+        this.predictedInjury = predictedInjury;
         this.riskScore = riskScore;
         this.predictedAt = predictedAt;
         this.athleteProfile = athleteProfile;
@@ -57,6 +62,10 @@ public class PredictionRecord{
 
     public String getPastInjuries(){
         return this.pastInjuries; 
+    }
+
+    public String getPredictedInjury(){
+        return this.predictedInjury;
     }
 
     public BigDecimal getRiskScore(){
@@ -74,6 +83,10 @@ public class PredictionRecord{
     // Setter
       public void setPastInjuries(String pastInjuries){
         this.pastInjuries = pastInjuries; 
+    }
+
+    public void setPredictedInjury(String predictedInjury){
+        this.predictedInjury = predictedInjury;
     }
 
     public void setRiskScore(BigDecimal riskScore){

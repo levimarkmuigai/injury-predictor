@@ -62,6 +62,7 @@ public class PredictionRecordController{
         return operation.findById(id).map(record -> {
 
             record.setPastInjuries(updatedRecord.getPastInjuries());
+            record.setPredictedInjury(updatedRecord.getPredictedInjury());
             record.setPredictedAt(updatedRecord.getPredictedAt());
             record.setRiskScore(updatedRecord.getRiskScore());
             record.setAthleteProfile(updatedRecord.getAthleteProfile());
