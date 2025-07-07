@@ -1,6 +1,6 @@
 import  {   useState,   useEffect   }   from    'react';
 
-import  {   fetchProfileBy  }   from    '../api/athleteApi';
+import  {   fetchProfileById  }   from    '../api/athleteApi';
 
 export  function    useAthleteProfile(id){
     const   [   profile,    setProfile  ]   =   useState(null);
@@ -10,14 +10,22 @@ export  function    useAthleteProfile(id){
     const   [   error,  setError    ]   =   useState(null);
 
     useEffect(() => {
+        // Reset state on ID change
+        setProfile(null);
+        setError(null);
         setLoading(true);
+
         fetchProfileById(id)
             .then(data => {
                 setProfile(data); 
+                })
+            .catch(err => {
+                setError(err);
+                })
+            .finally(() => {
                 setLoading(false);
-        }).catch(err => {
-            setError(err);
-            setLoading(false);
-        });
+                });
     }, [id]);
+
+    return  (   profile,    loading,    error   );
 }
