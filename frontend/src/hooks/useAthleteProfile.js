@@ -10,10 +10,16 @@ export  function    useAthleteProfile(id){
     const   [   error,  setError    ]   =   useState(null);
 
     useEffect(() => {
+
+        if  (!id    ||  Number.isNaN(Number(id))){
+            return;
+        }
+
         // Reset state on ID change
         setProfile(true);
         setError(null);
 
+        setLoading(true);
         fetchProfileById(id)
             .then(data => {
                 setProfile(data); 

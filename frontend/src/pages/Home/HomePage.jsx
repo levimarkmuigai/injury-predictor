@@ -1,12 +1,12 @@
 import  React,  {   useState,   useEffect   }   from    'react';
 
-import  {   fetchAllProfiles,   createProfile   }   from    '../../api/athleteApi';
+import  {   fetchProfileById,   createProfile   }   from    '../../api/athlete';
 
 import  ProfileCard from    '../../components/ProfileCard';
 
 export  default function    HomePage()  {
     
-    const   [profiles,setProfiles]  =   useState([]);
+    const   [profile,setProfiles]  =   useState([]);
 
     const   [form, setForm] =   useState({
         firstName:  '', lastName:   '', dob:    '', gender: '',
@@ -14,7 +14,7 @@ export  default function    HomePage()  {
     });
 
     useEffect   (() =>  {
-        fetchAllProfiles().then(setProfiles);
+        fetchProfileById().then(setProfiles);
     },  []);
 
     const   handleChange    =   (e) =>  {
@@ -24,7 +24,7 @@ export  default function    HomePage()  {
     const   handleSubmit    =   async   (e) =>  {
         e.preventDefault();
         const   newProfile  =   await   createProfile(form);
-        setProfiles(prev    =>  [..prev,    newProfile]);
+        setProfiles(prev    =>  [...prev,    newProfile]);
         setForm({   firstName:  '', lastName:   '', dob:    '', gender: '',
         weight: '', height: ''});
     };
@@ -46,8 +46,8 @@ export  default function    HomePage()  {
 
             <div className="grip gap-4">
                 {profile.map(profile    =>  (
-                    <ProfileCard key={profile.id}   profile={profile}/>
-                ))}
+                        <ProfileCard key={profile.id}   profile={profile}   />
+                    ))}
             </div>
         </div>
     );
